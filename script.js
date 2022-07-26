@@ -1,10 +1,10 @@
 var boardData = [
-    ["1","2","3","4","5","6","7"],
-    ["8","9","10","11","12","13","14"],
-    ["15","16","17","18","19","20","21"],
-    ["22","23","24","25","26","27","28"],
-    ["29","30","31","32","33","34","35"],
-    ["36","37","38","39","40","41","42"],
+    ["","","","","","",""],
+    ["","","","","","",""],
+    ["","","","","","",""],
+    ["","","","","","",""],
+    ["","","","","","",""],
+    ["","","","","","",""],
 ]
 
 var displayBoard = document.getElementById("board")
@@ -30,7 +30,7 @@ function showNewBoard(boardData){
     testBoard = document.getElementById("board")
     for(let z = 0; z < 6; z++){
         for(let x = 0; x < 7; x++){
-            testBoard.childNodes[z].childNodes[x].textContent = boardData[z][x];
+            testBoard.childNodes[z].childNodes[x].style.backgroundColor = boardData[z][x];
 
         }
     }
@@ -42,7 +42,8 @@ function createPlayers(){
         var players = 2
         if(players > 0 && players < 3){
             valid = true;
-            return ["Player 1","Player 2"]
+            document.getElementById('player-turn').textContent = "Turn: Red"
+            return ["Red","Black"]
         }
     }
     
@@ -53,29 +54,56 @@ function getSelection(){
     return selection;
 }
 
-function turn(players, boardData, columnSelection){
-    console.log(columnSelection)
-    for(i = 5; i >= 0; i--){
-        if(boardData[i][columnSelection] > 0){
-            boardData[i][columnSelection] = "king";
+function turn(player, boardData, columnSelection){
+    for(i = 5; i >= -1; i--){
+        if(boardData[i][columnSelection] == ""){
+            boardData[i][columnSelection] = currentPlayer
             break;
+        }
+        else if(i == -1){
+            i = 5;
+            btn.addEventListener('click', function(e){
+                columnSelection = getSelection()});
+            
         }
     }
 
 }
 
+function changePlayer(players, currentPlayer){
+    if(currentPlayer == players[0]){
+        currentPlayer = players[1]
+    }
+    else{currentPlayer = players[0]}
+    document.getElementById('player-turn').textContent = `Turn: ${currentPlayer}`
+    return currentPlayer
+
+}
+
+// function checkWin(boardData){
+//     for(i = 1; i <=42; i++){
+//         if (i !== ""){
+            
+
+//         }
+//     }
+// }
+
 function newGame(){
     var playing = true;
     const players = createPlayers();
-    currentPlayer = players[1]
+    currentPlayer = players[0]
     btn = document.getElementById("submit-button")
     btn.addEventListener('click', function(e){
         columnSelection = getSelection()
-        turn(players, boardData, columnSelection);
+        turn(currentPlayer, boardData, columnSelection);
         showNewBoard(boardData);
+        //checkWin()
+        //checkFullBoard()
+        currentPlayer = changePlayer(players, currentPlayer);
+    
     })
-    //checkWin()
-    //checkFullBoard()
+
 }
 
 newGame()

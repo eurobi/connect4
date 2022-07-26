@@ -5,17 +5,21 @@
 
     </head>
     <body>
-        <div id="user-fields">
-            <input type="radio" name="column" id="col-1" value="0"/>
-            <input type="radio" name="column" id="col-2" value="1"/>
-            <input type="radio" name="column" id="col-3" value="2"/>
-            <input type="radio" name="column" id="col-4" value="3"/>
-            <input type="radio" name="column" id="col-5" value="4"/>
-            <input type="radio" name="column" id="col-6" value="5"/>
-            <input type="radio" name="column" id="col-7" value="6"/>
-            <button id="submit-button">submit</button>
+        <div id="header-stuff">
+            <h2 id="player-turn"></h2>
         </div>
+        <div id="user-fields">
+            <input class="col-btn" type="radio" name="column" id="col-1" value="0"/>
+            <input class="col-btn" type="radio" name="column" id="col-2" value="1"/>
+            <input class="col-btn" type="radio" name="column" id="col-3" value="2"/>
+            <input class="col-btn" type="radio" name="column" id="col-4" value="3"/>
+            <input class="col-btn" type="radio" name="column" id="col-5" value="4"/>
+            <input class="col-btn" type="radio" name="column" id="col-6" value="5"/>
+            <input class="col-btn" type="radio" name="column" id="col-7" value="6"/>
+        </div>
+        
         <div id="board"></div>
+        <div><button id="submit-button">Drop Piece!</button></div>
 
     </body>
 <script src="script.js"></script>
