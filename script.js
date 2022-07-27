@@ -113,6 +113,18 @@ function checkWin(boardData){
     }
 }
 
+function checkFullBoard(boardData){
+    for(let r = 0; r < 6; r++){
+        for(let c = 0; c < 7; c++){
+            if(boardData[r][c] == ""){
+                return false
+            }
+
+        }
+    }
+    return true
+}
+
 function newGame(){
     var boardData = [
         ["","","","","","",""],
@@ -138,7 +150,14 @@ function newGame(){
             btn.style.display = "none"
             
         }
-        //checkFullBoard()
+        else if(checkFullBoard(boardData) == true){
+            playing = false
+            showNewBoard(boardData);
+            document.getElementById('player-turn').textContent = `It's a tie!`
+            btn.style.display = "none"
+
+        }
+ 
         else{currentPlayer = changePlayer(players, currentPlayer)};
     
     })
