@@ -114,6 +114,14 @@ function checkWin(boardData){
 }
 
 function newGame(){
+    var boardData = [
+        ["","","","","","",""],
+        ["","","","","","",""],
+        ["","","","","","",""],
+        ["","","","","","",""],
+        ["","","","","","",""],
+        ["","","","","","",""],
+    ]
     var playing = true;
     const players = createPlayers();
     currentPlayer = players[0]
@@ -125,11 +133,13 @@ function newGame(){
         winner = checkWin(boardData);
         if(winner == true){
             playing = false
-            alert(`Yay! ${currentPlayer} has won!`)
+            showNewBoard(boardData);
+            document.getElementById('player-turn').textContent = `Winner: ${currentPlayer}!`
+            btn.style.display = "none"
             
         }
         //checkFullBoard()
-        currentPlayer = changePlayer(players, currentPlayer);
+        else{currentPlayer = changePlayer(players, currentPlayer)};
     
     })
 
