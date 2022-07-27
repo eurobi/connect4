@@ -80,14 +80,38 @@ function changePlayer(players, currentPlayer){
 
 }
 
-// function checkWin(boardData){
-//     for(i = 1; i <=42; i++){
-//         if (i !== ""){
-            
+function checkWin(boardData){
+    var winner = false
+    for(let r = 0; r < 6; r++){
+        for(let c = 0; c < 7; c++){
+            var currentIndex = boardData[r][c];
+            if(currentIndex != ""){
+                //horizontal win
+                if(c < 4 && currentIndex == boardData[r][c+1] && currentIndex == boardData[r][c+2] && currentIndex == boardData[r][c+3]){
+                    winner = true;
+                    return winner;
+                }
+                //vertical win
+                else if(r < 3 && currentIndex == boardData[r+1][c] && currentIndex == boardData[r+2][c] && currentIndex == boardData[r+3][c]){
+                    winner = true;
+                    return winner;
+                }
+                //downward diagonal win
+                else if(r < 3 && c < 4 && currentIndex == boardData[r+1][c+1] && currentIndex == boardData[r+2][c+2] && currentIndex == boardData[r+3][c+3]){
+                    winner = true;
+                    return winner;
+                }
+                //upward diagonal win
+                else if(r > 3 && c < 4 && currentIndex == boardData[r-1][c+1] && currentIndex == boardData[r-2][c+2] && currentIndex == boardData[r-3][c+3]){
+                    winner = true;
+                    return winner;
+                }
+                
+            }
 
-//         }
-//     }
-// }
+        }
+    }
+}
 
 function newGame(){
     var playing = true;
@@ -98,7 +122,12 @@ function newGame(){
         columnSelection = getSelection()
         turn(currentPlayer, boardData, columnSelection);
         showNewBoard(boardData);
-        //checkWin()
+        winner = checkWin(boardData);
+        if(winner == true){
+            playing = false
+            alert(`Yay! ${currentPlayer} has won!`)
+            
+        }
         //checkFullBoard()
         currentPlayer = changePlayer(players, currentPlayer);
     
