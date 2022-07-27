@@ -14,6 +14,10 @@ body{
     margin: auto;
     margin-bottom: 30px;
     border-radius: 10px;
+    position: absolute;
+    top: 130;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 #board-overlay{
@@ -27,7 +31,7 @@ body{
     margin-bottom: 30px;
     border-radius: 10px;
     position: absolute;
-    top: 129;
+    top: 130;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -87,15 +91,17 @@ body{
 
 #submit-button{
     margin-bottom: 20px;
-    margin-top: 50px;
+    position: absolute;
+    top: 500;
     display: flex;
-    margin: auto;
     border-radius: 5px;
     background-color: transparent;
     color: white;
     font-size: 20px;
     border: solid 1px;
     padding: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 #player-turn{
