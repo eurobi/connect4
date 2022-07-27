@@ -16,12 +16,54 @@ body{
     border-radius: 10px;
 }
 
+#board-overlay{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    padding: 10px;
+    width: 400px;
+    margin: auto;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    position: absolute;
+    top: 129;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
 .boardRow{
     display: flex;
 
 }
 
+.boardRow-overlay{
+    display: flex;
+
+}
+
+@keyframes slide {
+    from {
+      transform: translateY(-1000%);
+    }
+  
+    to {
+      transform: translateY(0%);
+    }
+  }
+
+
+
 .boardColumn{
+    width: 50px;
+    height: 50px;
+    border: solid 2px;
+    border-color: transparent;
+    border-radius: 50%;
+    margin: 1px;
+}
+
+.boardColumn-overlay{
     width: 50px;
     height: 50px;
     border: solid 2px;
@@ -39,8 +81,8 @@ body{
 
 .col-btn{
     border: 0px;
-    width: 45px;
-    height: 2em;
+    width: 50px;
+    height: 50px;
 }
 
 #submit-button{

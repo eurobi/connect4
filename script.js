@@ -58,6 +58,7 @@ function turn(player, boardData, columnSelection){
     for(i = 5; i >= -1; i--){
         if(boardData[i][columnSelection] == ""){
             boardData[i][columnSelection] = currentPlayer
+            displayBoard.childNodes[i].childNodes[columnSelection].style.animation = "slide 1s 1"
             break;
         }
         else if(i == -1){
