@@ -334,32 +334,49 @@ function getPotentialStreak(surroundingArray){
 
 function computerSelection(boardData){
     var availCol = getAvailColumns(boardData) 
-    var selectedStreak = []
-    var selectedColumn = 3
+    var savedStreak = []
+    var selectedColumn = []
     for(c = 0; c < availCol.length; c++){
         var surroundings = getSurroundings(boardData, availCol, c)
-        console.log(surroundings)
         for(s = 0; s < surroundings.length; s++){
-            var potentialStreak = getPotentialStreak(surroundings[s])
-            if(potentialStreak.length > selectedStreak.length){
-                selectedStreak = potentialStreak
-                selectedColumn = c
+            var streakToAnalyze = getPotentialStreak(surroundings[s])
+            console.log(streakToAnalyze)
+            // if(streakToAnalyze.length == 3 && streakToAnalyze[0] == "Black"){}
+            if(streakToAnalyze.length > savedStreak.length){
+                savedStreak = streakToAnalyze
+                selectedColumn = [c]
 
             }
-            else if(potentialStreak.length == selectedStreak.length && selectedStreak[0] == "Black"){
-                selectedStreak = potentialStreak
-                selectedColumn = c
+            else if(streakToAnalyze.length == savedStreak.length && savedStreak[0] == "Black"){
+                if(streakToAnalyze == "Red"){
+                    savedStreak = streakToAnalyze
+                    selectedColumn = [c]
+                }
+                else{selectedColumn.push(c)}
 
             }
-            else if(potentialStreak.length == selectedStreak.length && potentialStreak[0] == "Red"){
-                selectedStreak = potentialStreak
-                selectedColumn = c
+            else if(streakToAnalyze.length == savedStreak.length && savedStreak[0] == "Red"){
+                if(streakToAnalyze == "Red"){
+                    selectedColumn.push(c)
+                }
+                else{}
 
             }
             else{}
         }
 
     }
-    return selectedColumn
+    var odd = selectedColumn.length % 2
+    var even = selectedColumn.length / 2
+
+    if(selectedColumn.length > 1){
+        if (selectedColumn.length % 2 == 0){
+            return selectedColumn[even]
+        }
+        else{
+            return selectedColumn[odd]
+        }
+    }
+    else{ return selectedColumn[0]}
 
 }
