@@ -27,7 +27,6 @@ window.addEventListener('load' ,function (event){
 });
 
 function showNewBoard(boardData){
-    console.log("making new board")
     testBoard = document.getElementById("board")
     for(let z = 0; z < 6; z++){
         for(let x = 0; x < 7; x++){
@@ -352,7 +351,7 @@ function computerSelection(boardData){
                 selectedColumn = c
 
             }
-            else if(potentialStreak.length == selectedStreak.length && selectedStreak[0] == "Red"){
+            else if(potentialStreak.length == selectedStreak.length && potentialStreak[0] == "Red"){
                 selectedStreak = potentialStreak
                 selectedColumn = c
 
