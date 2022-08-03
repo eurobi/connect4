@@ -300,7 +300,7 @@ function getPotentialStreak(surroundingArray){
             break;
         }
     }
-    for(i=leftString.length - 2; i > 0; i--){
+    for(i=leftString.length - 2; i >= 0; i--){
         if(leftString[i] !== "" && leftStreak.length == 0){
             leftStreak.push(leftString[i])
         }
@@ -340,6 +340,7 @@ function computerSelection(boardData){
     for(c = 0; c < availCol.length; c++){
         if(availCol[c] !== ""){
             var surroundings = getSurroundings(boardData, availCol, c)
+            console.log(surroundings)
             for(s = 0; s < surroundings.length; s++){
                 var streakToAnalyze = getPotentialStreak(surroundings[s])
                 if(streakToAnalyze.length > savedStreak.length){
