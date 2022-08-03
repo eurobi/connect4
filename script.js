@@ -1,3 +1,4 @@
+
 var boardData = [
     ["","","","","","",""],
     ["","","","","","",""],
@@ -103,7 +104,7 @@ function checkWin(boardData){
                     return winner;
                 }
                 //upward diagonal win
-                else if(r > 3 && c < 4 && currentIndex == boardData[r-1][c+1] && currentIndex == boardData[r-2][c+2] && currentIndex == boardData[r-3][c+3]){
+                else if(r > 2 && c < 4 && currentIndex == boardData[r-1][c+1] && currentIndex == boardData[r-2][c+2] && currentIndex == boardData[r-3][c+3]){
                     winner = true;
                     return winner;
                 }
@@ -126,30 +127,53 @@ function checkFullBoard(boardData){
     return true
 }
 
+
+
 function newGame(){
-    var boardData = [
-        ["","","","","","",""],
-        ["","","","","","",""],
-        ["","","","","","",""],
-        ["","","","","","",""],
-        ["","","","","","",""],
-        ["","","","","","",""],
-    ]
+
     var playing = true;
     const players = createPlayers();
-    currentPlayer = players[0]
-    btn = document.getElementById("submit-button")
+    currentPlayer = players[0];
+    btn = document.getElementById("submit-button");
+    colButtons = document.getElementsByClassName("col-btn");
     btn.addEventListener('click', function(e){
         columnSelection = getSelection()
         turn(currentPlayer, boardData, columnSelection);
         showNewBoard(boardData);
         winner = checkWin(boardData);
         if(winner == true){
+            playing = false;
+            showNewBoard(boardData);
+            document.getElementById('player-turn').textContent = `Winner: ${currentPlayer}!`;
+            btn.style.display = "none";
+            for(i = 0; i < 7; i++){
+                colButtons[i].style.display = "none";
+
+            }
+        }
+        else if(checkFullBoard(boardData) == true){
             playing = false
             showNewBoard(boardData);
-            document.getElementById('player-turn').textContent = `Winner: ${currentPlayer}!`
+            document.getElementById('player-turn').textContent = `It's a tie!`
             btn.style.display = "none"
-            
+
+        }
+        else{currentPlayer = changePlayer(players, currentPlayer)};
+
+        // computer turn
+        columnSelection = computerSelection(boardData)
+        turn(currentPlayer, boardData, columnSelection);
+        setTimeout(showNewBoard, 1200, boardData);
+        winner = checkWin(boardData);
+        if(winner == true){
+            playing = false;
+            showNewBoard(boardData);
+            document.getElementById('player-turn').textContent = `Winner: ${currentPlayer}!`;
+            btn.style.display = "none";
+            for(i = 0; i < 7; i++){
+                colButtons[i].style.display = "none";
+
+            }
         }
         else if(checkFullBoard(boardData) == true){
             playing = false
@@ -160,9 +184,183 @@ function newGame(){
         }
  
         else{currentPlayer = changePlayer(players, currentPlayer)};
+
     
     })
 
 }
 
 newGame()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getAvailColumns(boardData){
+    var availableColumns = ["","","","","","",""]
+    for(r = 0; r < 6; r ++){
+        for(c = 0; c < 7; c++){
+            if(boardData[r][c] == ""){
+                availableColumns[c] = r
+            }
+        }
+    }
+    return availableColumns
+};
+
+
+function getSurroundings(boardData, availCol, col){
+    var row = availCol[col]
+    // horizontal array
+    var horizonalSurroundings = boardData[row].slice()
+    horizonalSurroundings[col] = "Target"
+    // vertical array
+    var verticalSurroundings = 
+        [boardData[0][col],
+        boardData[1][col],
+        boardData[2][col],
+        boardData[3][col],
+        boardData[4][col],
+        boardData[5][col]
+    ]
+    verticalSurroundings[row] = "Target"
+
+    var diagonalSurroundingsD = []
+    for(i = -3; i <= 3; i++){
+        if(row + i == row && col + i == col){
+            diagonalSurroundingsD.push("Target")
+        }
+        else if(row + i >= 0 && row + i <= 5 && col + i >= 0 && col + i <= 6){
+            diagonalSurroundingsD.push(boardData[row+i][col+i])
+
+        }
+    }
+    var diagonalSurroundingsU = []
+    for(i = -3; i <= 3; i++){
+        if(row + i == row && col + i == col){
+            diagonalSurroundingsU.push("Target")
+        }
+        else if(row - i >= 0 && row - i <= 5 && col + i >= 0 && col + i <= 6){
+            diagonalSurroundingsU.push(boardData[row-i][col+i])
+
+        }
+    }
+
+    var surroundings = []
+    surroundings.push(horizonalSurroundings)
+    surroundings.push(verticalSurroundings)
+
+    if(diagonalSurroundingsD.length > 3){
+        surroundings.push(diagonalSurroundingsD)
+    }
+    if(diagonalSurroundingsU.length > 3){
+        surroundings.push(diagonalSurroundingsU)
+    }
+
+    return surroundings
+}
+
+
+function checkSurroundings(surroundings, availCol, col){
+    var row = availCol[col]
+    var longestStreak = []
+    for(i=0; i < surroundings.vertical.length; i ++){
+        // get streak of surrounding array
+        // if streak is longer than longest - change longest
+    }
+
+
+}
+
+
+function getPotentialStreak(surroundingArray){
+    var tIndex = surroundingArray.indexOf("Target")
+    var rightString = [...surroundingArray.slice(tIndex)]
+    var leftString = [...surroundingArray.slice(0, tIndex + 1)]
+    var rightStreak = []
+    var leftStreak = []
+    for(i=1; i < rightString.length; i++){
+        if(rightString[i] !== "" && rightStreak.length == 0){
+            rightStreak.push(rightString[i])
+        }
+        else if(rightString[i] !== "" && rightString[i] == rightStreak[0]){
+            rightStreak.push(rightString[i])
+        }
+        else{
+            break;
+        }
+    }
+    for(i=leftString.length - 2; i > 0; i--){
+        if(leftString[i] !== "" && leftStreak.length == 0){
+            leftStreak.push(leftString[i])
+        }
+        else if(leftString[i] !== "" && leftString[i] == leftStreak[0]){
+            leftStreak.push(leftString[i])
+        }
+        else{
+            break;
+        }
+    }
+
+    if(leftStreak.length == rightStreak.length && leftStreak[0] == rightStreak[0]){
+        return leftStreak.concat(rightStreak)
+    }
+    else if(leftStreak.length == rightStreak.length && leftStreak[0] !== rightStreak[0]){
+        if(leftStreak.includes("Red")){
+            return leftStreak
+        }
+        else {return rightStreak}
+    }
+    else if(leftStreak.length > rightStreak.length && leftStreak[0] == rightStreak[0]){
+        return leftStreak.concat(rightStreak)
+        }
+    else if(leftStreak.length < rightStreak.length && leftStreak[0] == rightStreak[0]){
+        return leftStreak.concat(rightStreak)
+    }
+    else if(leftStreak.length > rightStreak.length){
+        return leftStreak
+    }
+    else{return rightStreak}
+}
+
+function computerSelection(boardData){
+    var availCol = getAvailColumns(boardData) 
+    var selectedStreak = []
+    var selectedColumn = 3
+    for(c = 0; c < availCol.length; c++){
+        var surroundings = getSurroundings(boardData, availCol, c)
+        console.log(surroundings)
+        for(s = 0; s < surroundings.length; s++){
+            var potentialStreak = getPotentialStreak(surroundings[s])
+            if(potentialStreak.length > selectedStreak.length){
+                selectedStreak = potentialStreak
+                selectedColumn = c
+
+            }
+            else if(potentialStreak.length == selectedStreak.length && selectedStreak[0] == "Black"){
+                selectedStreak = potentialStreak
+                selectedColumn = c
+
+            }
+            else if(potentialStreak.length == selectedStreak.length && selectedStreak[0] == "Red"){
+                selectedStreak = potentialStreak
+                selectedColumn = c
+
+            }
+            else{}
+        }
+
+    }
+    return selectedColumn
+
+}
