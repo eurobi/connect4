@@ -214,6 +214,7 @@ function getAvailColumns(boardData){
             }
         }
     }
+    console.log(availableColumns)
     return availableColumns
 };
 
@@ -337,32 +338,32 @@ function computerSelection(boardData){
     var savedStreak = []
     var selectedColumn = []
     for(c = 0; c < availCol.length; c++){
-        var surroundings = getSurroundings(boardData, availCol, c)
-        for(s = 0; s < surroundings.length; s++){
-            var streakToAnalyze = getPotentialStreak(surroundings[s])
-            console.log(streakToAnalyze)
-            // if(streakToAnalyze.length == 3 && streakToAnalyze[0] == "Black"){}
-            if(streakToAnalyze.length > savedStreak.length){
-                savedStreak = streakToAnalyze
-                selectedColumn = [c]
-
-            }
-            else if(streakToAnalyze.length == savedStreak.length && savedStreak[0] == "Black"){
-                if(streakToAnalyze == "Red"){
+        if(availCol[c] !== ""){
+            var surroundings = getSurroundings(boardData, availCol, c)
+            for(s = 0; s < surroundings.length; s++){
+                var streakToAnalyze = getPotentialStreak(surroundings[s])
+                if(streakToAnalyze.length > savedStreak.length){
                     savedStreak = streakToAnalyze
                     selectedColumn = [c]
-                }
-                else{selectedColumn.push(c)}
 
-            }
-            else if(streakToAnalyze.length == savedStreak.length && savedStreak[0] == "Red"){
-                if(streakToAnalyze == "Red"){
-                    selectedColumn.push(c)
+                }
+                else if(streakToAnalyze.length == savedStreak.length && savedStreak[0] == "Black"){
+                    if(streakToAnalyze == "Red"){
+                        savedStreak = streakToAnalyze
+                        selectedColumn = [c]
+                    }
+                    else{selectedColumn.push(c)}
+
+                }
+                else if(streakToAnalyze.length == savedStreak.length && savedStreak[0] == "Red"){
+                    if(streakToAnalyze == "Red"){
+                        selectedColumn.push(c)
+                    }
+                    else{}
+
                 }
                 else{}
-
             }
-            else{}
         }
 
     }
